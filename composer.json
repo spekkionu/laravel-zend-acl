@@ -1,0 +1,32 @@
+{
+    "name": "spekkionu/laravel-zend-acl",
+    "description": "",
+    "keywords": ["laravel", "acl", "access", "permissions"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan Bernardi",
+            "email": "spekkionu@spekkionu.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "zendframework/zend-permissions-acl": "2.2.*",
+        "illuminate/support": "4.0.x"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Spekkionu\\ZendAcl": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
