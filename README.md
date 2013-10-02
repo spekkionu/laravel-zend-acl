@@ -132,3 +132,8 @@ $allowed = Acl::isAllowed('guest', 'page', 'view');
 ?>
 ```
 
+## TODO
+
+So far this package just provides access to the Zend Acl class.
+
+I plan on adding some deeper integrations with the Laravel Auth library so it knows the roles of the currently logged in user.
