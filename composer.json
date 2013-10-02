@@ -1,6 +1,6 @@
 {
     "name": "spekkionu/laravel-zend-acl",
-    "description": "",
+    "description": "Adds ACL to Laravel 4 via Zend\\Permissions\\Acl component.",
     "keywords": ["laravel", "acl", "access", "permissions"],
     "license": "MIT",
     "authors": [
