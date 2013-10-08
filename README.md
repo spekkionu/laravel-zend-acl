@@ -138,6 +138,53 @@ $allowed = Acl::isAllowed('guest', 'page', 'view');
 ?>
 ```
 
+## Where to put ACL definitions
+
+You can put the ACL definitions anywhere that has access to the IOC container but this is where I prefer to have them.
+
+### Add the following code to the end app/start/global.php
+
+```php
+/*
+|--------------------------------------------------------------------------
+| Require The ACL File
+|--------------------------------------------------------------------------
+|
+| Load the ACL configuration file.
+| This contains the roles and permissions needed for the application.
+|
+*/
+
+require app_path().'/acl.php';
+```
+
+### Create app/acl.php with the following content
+
+```php
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| ACL Resources, Roles, and Permissions
+|--------------------------------------------------------------------------
+|
+| Below you may add resources and roles and define the permissions
+| roles have on those resources.
+|
+*/
+
+// Add Resources
+
+
+// Add Roles
+
+
+// Give roles permissions on resources
+
+```
+
+Add the resources, roles, and permissions required for your application.
+
 ## TODO
 
 So far this package just provides access to the Zend Acl class.
