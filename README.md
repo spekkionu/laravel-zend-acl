@@ -30,7 +30,7 @@ Add the following line to the `require` section of `composer.json`:
 ```
 ## Setup
 
-1. Add `Spekkionu\ZendAcl\ZendAclServiceProvider` to the service provider list in `app/config/app.php`.
+1. Add `'Spekkionu\ZendAcl\ZendAclServiceProvider',` to the service provider list in `app/config/app.php`.
 2. Add `'Acl' => 'Spekkionu\ZendAcl\Facades\Acl',` to the list of aliases in `app/config/app.php`.
 
 ## Usage
