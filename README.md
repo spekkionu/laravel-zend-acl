@@ -1,6 +1,10 @@
 Laravel Zend Acl
 ================
 
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/quality-score.png?s=40c132d7e25a2856b833195b3e881463c04e07d9)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
+[![Code Coverage](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/coverage.png?s=cac2d309c0f9a54c75efc182ab3ba03e16605b1b)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
+
+
 Adds ACL to Laravel 4 via Zend\Permissions\Acl component.
 
 Most of the ACL solutions for Laravel 4 store the permissions rules in the database or other persistance layer.
