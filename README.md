@@ -185,8 +185,50 @@ require app_path().'/acl.php';
 
 Add the resources, roles, and permissions required for your application.
 
-## TODO
+## Checking permissions for a user
 
-So far this package just provides access to the Zend Acl class.
+In order to check permissions for a logged in user the user needs to have a field that stores the user's role.
+If using an Eloquent user model have the user model implement Zend\Permissions\Acl\Role\RoleInterface.
+This interface has one method getRoleId() that should return the role for the user.
 
-I plan on adding some deeper integrations with the Laravel Auth library so it knows the roles of the currently logged in user.
+### Example Model
+
+Say there is a table `users` that has a field `role`
+The following model will allow an instance of the User model to be passed to the isAllowed() method.
+```php
+<?php
+use Eloquent;
+use Zend\Permissions\Acl\Role\RoleInterface;
+
+class User extends Eloquent implements RoleInterface
+{
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+    
+    /**
+     * Returns role of the user
+     * @return string
+     */
+    public function getRoleId()
+    {
+        return $this->role;
+    }
+}
+
+```
+### Using the user model to check permissions
+
+```php
+<?php
+
+// Checking if a user has permissions to view an article
+$user = User::find(1);
+Acl::isAllowed($user, 'article', 'view');
+
+// Checking if the currently logged in user has permissions to edit a blog post
+Acl::isAllowed(Auth::user(), 'post', 'edit');
+```
