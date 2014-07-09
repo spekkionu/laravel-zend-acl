@@ -2,8 +2,6 @@
 
 use Illuminate\Support\ServiceProvider;
 use Zend\Permissions\Acl\Acl;
-use Zend\Permissions\Acl\Role\GenericRole as Role;
-use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 
 class ZendAclServiceProvider extends ServiceProvider {
 
@@ -31,10 +29,9 @@ class ZendAclServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['acl'] = $this->app->share(function($app)
-    {
-    	return new Acl;
-    });
+		$this->app['acl'] = $this->app->share(function($app) {
+    	            return new Acl;
+                });
 	}
 
 	/**
