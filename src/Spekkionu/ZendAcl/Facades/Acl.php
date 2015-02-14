@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Acl extends Facade {
+class Acl extends Facade
+{
 
     /**
      * Get the registered name of the component.
@@ -10,5 +11,4 @@ class Acl extends Facade {
      * @return string
      */
     protected static function getFacadeAccessor() { return 'acl'; }
-
 }

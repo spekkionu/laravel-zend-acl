@@ -1,6 +1,6 @@
 {
     "name": "spekkionu/laravel-zend-acl",
-    "description": "Adds ACL to Laravel 4 via Zend\\Permissions\\Acl component.",
+    "description": "Adds ACL to Laravel via Zend\\Permissions\\Acl component.",
     "keywords": ["laravel", "acl", "access", "permissions"],
     "license": "MIT",
     "authors": [
@@ -11,22 +11,12 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "zendframework/zend-permissions-acl": "2.2.*",
-        "illuminate/support": "4.* | 5.*"
+        "zendframework/zend-permissions-acl": "2.3.*",
+        "illuminate/support": "5.*"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.zendframework.com/"
-        }
-    ],
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
-        "psr-0": {
-            "Spekkionu\\ZendAcl": "src/"
+        "psr-4": {
+            "Spekkionu\\ZendAcl\\": "src/Spekkionu/ZendAcl"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
