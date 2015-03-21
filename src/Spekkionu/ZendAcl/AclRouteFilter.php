@@ -62,8 +62,8 @@ class AclRouteFilter
                 $url = $this->config->get('zendacl.redirect', 'auth/login');
                 return redirect($url);
             } elseif ($action == 'route') {
-                $url = $this->config->get('zendacl.redirect', 'zendacl::unauthorized');
-                return redirect()->route($url);
+                $route = $this->config->get('zendacl.redirect');
+                return redirect()->route($route);
             } elseif ($action == 'view') {
                 $view = $this->config->get('zendacl.view', 'zendacl::unauthorized');
                 return view($view);
