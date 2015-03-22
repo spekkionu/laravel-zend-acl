@@ -5,6 +5,7 @@ Laravel Zend Acl
 [![Total Downloads](https://poser.pugx.org/spekkionu/laravel-zend-acl/downloads.png)](https://packagist.org/packages/spekkionu/laravel-zend-acl)
 [![Build Status](https://travis-ci.org/spekkionu/laravel-zend-acl.svg?branch=master)](https://travis-ci.org/spekkionu/laravel-zend-acl)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/quality-score.png?s=40c132d7e25a2856b833195b3e881463c04e07d9)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9d1b7af6-2bb0-44bb-bdfc-5647dc24d57a/mini.png)](https://insight.sensiolabs.com/projects/9d1b7af6-2bb0-44bb-bdfc-5647dc24d57a)
 [![Code Coverage](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/coverage.png?s=cac2d309c0f9a54c75efc182ab3ba03e16605b1b)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
 
 
