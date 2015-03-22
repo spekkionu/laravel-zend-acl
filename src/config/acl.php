@@ -32,7 +32,7 @@ use Zend\Permissions\Acl\Role\GenericRole as Role;
 | $acl->addResource(new GenericResource('someResource'));
 |
 */
-
+$acl->addResource(new GenericResource('guest'));
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ use Zend\Permissions\Acl\Role\GenericRole as Role;
 | $acl->addRole(new Role('admin'));
 |
 */
-$acl->addRole('guest');
+$acl->addRole(new Role('guest'));
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +63,4 @@ $acl->addRole('guest');
 | $acl->allow('member', 'page', 'view');
 |
 */
+$acl->allow('guest', 'guest');

@@ -3,6 +3,8 @@
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository as Config;
 use Zend\Permissions\Acl\Acl;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class AclRouteFilter
 {
@@ -41,7 +43,17 @@ class AclRouteFilter
         $this->config = $config;
     }
 
-    public function filter($route, $request, $resource = null, $permission = null)
+    /**
+     * Route filter method
+     *
+     * @param Route $route
+     * @param Request $request
+     * @param string $resource
+     * @param string $permission
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Route $route, Request $request, $resource = null, $permission = null)
     {
         if ($this->auth->guest()) {
             if (!$this->acl->isAllowed('guest', $resource, $permission)) {
@@ -52,7 +64,14 @@ class AclRouteFilter
         }
     }
 
-    protected function notAllowed($request)
+    /**
+     * Processes not allowed response
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function notAllowed(Request $request)
     {
         if ($request->ajax()) {
             return response('Unauthorized.', 401);

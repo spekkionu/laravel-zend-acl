@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Routing\Registrar as Router;
 use Zend\Permissions\Acl\Acl;
+use Illuminate\Contracts\Foundation\Application;
 
 class ZendAclServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,7 @@ class ZendAclServiceProvider extends ServiceProvider
             dirname(dirname(__DIR__)) . '/config/zendacl.php', 'zendacl'
         );
 
-        $this->app['acl'] = $this->app->share(function ($app) {
+        $this->app['acl'] = $this->app->share(function (Application $app) {
             $acl = new Acl;
             if (file_exists(app_path('Http/acl.php'))) {
                 include app_path('Http/acl.php');
@@ -53,7 +54,7 @@ class ZendAclServiceProvider extends ServiceProvider
             return $acl;
         });
 
-        $this->app->singleton('Zend\Permissions\Acl\Acl', function ($app) {
+        $this->app->singleton('Zend\Permissions\Acl\Acl', function (Application $app) {
             return $app->make('acl');
         });
     }
