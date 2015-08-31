@@ -1,15 +1,17 @@
-<?php namespace Spekkionu\ZendAcl;
+<?php 
 
+namespace Spekkionu\ZendAcl;
+
+use Closure;
+use  Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository as Config;
 use Zend\Permissions\Acl\Acl;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 
-class AclRouteFilter
+class AclMiddleware
 {
 
-    /**
+	/**
      * The Guard implementation.
      *
      * @var Guard
@@ -44,16 +46,13 @@ class AclRouteFilter
     }
 
     /**
-     * Route filter method
+     * Run the request filter.
      *
-     * @param Route $route
-     * @param Request $request
-     * @param string $resource
-     * @param string $permission
-     *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
      */
-    public function filter(Route $route, Request $request, $resource = null, $permission = null)
+    public function handle(Request $request, Closure $next, $resource = null, $permission = null)
     {
         if ($this->auth->guest()) {
             if (!$this->acl->isAllowed('guest', $resource, $permission)) {
@@ -62,6 +61,8 @@ class AclRouteFilter
         } elseif (!$this->acl->isAllowed($this->auth->user(), $resource, $permission)) {
             return $this->notAllowed($request);
         }
+
+        return $next($request);
     }
 
     /**

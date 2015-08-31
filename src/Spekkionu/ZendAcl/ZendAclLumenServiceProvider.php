@@ -6,7 +6,7 @@ use Illuminate\Contracts\Routing\Registrar as Router;
 use Zend\Permissions\Acl\Acl;
 use Illuminate\Contracts\Foundation\Application;
 
-class ZendAclServiceProvider extends ServiceProvider
+class ZendAclLumenServiceProvider extends ServiceProvider
 {
 
     /**
@@ -23,12 +23,6 @@ class ZendAclServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            dirname(dirname(__DIR__)) . '/config/zendacl.php' => config_path('zendacl.php'),
-            dirname(dirname(__DIR__)) . '/config/acl.php' => app_path('Http/acl.php'),
-            dirname(dirname(__DIR__)) . '/views' => base_path('resources/views/vendor/zendacl'),
-        ]);
-
         $this->loadViewsFrom(dirname(dirname(__DIR__)).'/views', 'zendacl');
     }
 
@@ -39,15 +33,12 @@ class ZendAclServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            dirname(dirname(__DIR__)) . '/config/zendacl.php',
-            'zendacl'
-        );      
+        $this->app->configure('zendacl');
 
         $this->app['acl'] = $this->app->share(function (Application $app) {
             $acl = new Acl;
-            if (file_exists(app_path('Http/acl.php'))) {
-                include app_path('Http/acl.php');
+            if (file_exists(base_path('app/Http/acl.php'))) {
+                include base_path('app/Http/acl.php');
             }
             return $acl;
         });

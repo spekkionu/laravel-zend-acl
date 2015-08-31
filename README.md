@@ -17,7 +17,7 @@ Adding new resources, permissions, or roles requires runnning db queries via a m
 With this package the permissions are stored in code and thus in version control (hopefully).
 
 Rather than reinvent the wheel this package makes use of the Acl package from Zend Framework.
-Documentation for the Zend\Permissions\Acl can be found at http://framework.zend.com/manual/2.2/en/modules/zend.permissions.acl.intro.html
+Documentation for the Zend\Permissions\Acl can be found at http://framework.zend.com/manual/current/en/modules/zend.permissions.acl.intro.html
 
 ## Installation
 
@@ -26,17 +26,25 @@ Add the following line to the `require` section of `composer.json`:
 ```json
 {
     "require": {
-        "spekkionu/laravel-zend-acl": "2.*"
+        "spekkionu/laravel-zend-acl": "3.*"
     }
 }
 ```
 ## Setup
+
+### Laravel
 
 1. Add `'Spekkionu\ZendAcl\ZendAclServiceProvider',` to the service provider list in `config/app.php`.
 2. Add `'Acl' => 'Spekkionu\ZendAcl\Facades\Acl',` to the list of aliases in `config/app.php`.
 3. Run `php artisan vendor:publish --provider=Spekkionu\ZendAcl\ZendAclServiceProvider`
 
 After publishing the permissions will be defined in `app/Http/acl.php`.
+
+### Lumen
+
+1. Add `$app->register(Spekkionu\ZendAcl\ZendAclLumenServiceProvider::class);` to the `Register Service Providers` section in `bootstrap/app.php`.
+2. Copy the `vendor/spekkionu/laravel-zend-acl/src/config/zendacl.php` file to the `config` folder in the app root (create the folder if it does not exist).
+3. Copy the `vendor/spekkionu/laravel-zend-acl/src/config/acl.php` file to the `app/Http` folder (this folder should also contain the `routes.php` file).
 
 ## Usage
 
@@ -196,14 +204,35 @@ Acl::isAllowed(Auth::user(), 'post', 'edit');
 
 ### Adding permission checks to routes
 
-There is an acl route filter included in this package that lets you restrict access by route.
-The route filter requires the model returned by Auth::user() to implement `Zend\Permissions\Acl\Role\RoleInterface` as above.
+There is an acl route middleware included in this package that lets you restrict access by route.
+The route middleware requires the model returned by Auth::user() to implement `Zend\Permissions\Acl\Role\RoleInterface` as above.
 
-You can add the filter to any route as a before filter such as the following.
+#### Registering the acl middleware
+
+##### Laravel
+
+Add the following to the `$routeMiddleware` array in `app/Http/Kernel.php`
 
 ```php
 
-Route::get('article/{id}', ['before' => ['acl:article,view'], 'uses' => 'ArticleController@show']);
+'acl' => \Spekkionu\ZendAcl\AclMiddleware::class,
+```
+##### Lumen
+
+Add the following to the array in the `$app->routeMiddleware()` method in `bootstrap/app.php`
+
+```php
+
+'acl' => \Spekkionu\ZendAcl\AclMiddleware::class,
+```
+
+#### Using the acl middleware
+
+You can add the middleware to any route as a before middleware such as the following.
+
+```php
+
+Route::get('article/{id}', ['middleware' => ['acl:article,view'], 'uses' => 'ArticleController@show']);
 ```
 
 When the route is requested it will check if the currently logged in user has is allowed the view privilege on the article resource.
