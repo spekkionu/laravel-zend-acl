@@ -9,7 +9,7 @@ Laravel Zend Acl
 [![Code Coverage](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/coverage.png?s=cac2d309c0f9a54c75efc182ab3ba03e16605b1b)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
 
 
-Adds ACL to Laravel 5 via Zend\Permissions\Acl component.
+Adds ACL to Laravel 5 or Lumen via Zend\Permissions\Acl component.
 
 Most of the ACL solutions for Laravel store the permissions rules in the database or other persistance layer.
 This is great if access is dynamic but for applications with set permissions by roles this makes modification more difficult.
@@ -214,7 +214,6 @@ The route middleware requires the model returned by Auth::user() to implement `Z
 Add the following to the `$routeMiddleware` array in `app/Http/Kernel.php`
 
 ```php
-
 'acl' => \Spekkionu\ZendAcl\AclMiddleware::class,
 ```
 ##### Lumen
@@ -222,7 +221,6 @@ Add the following to the `$routeMiddleware` array in `app/Http/Kernel.php`
 Add the following to the array in the `$app->routeMiddleware()` method in `bootstrap/app.php`
 
 ```php
-
 'acl' => \Spekkionu\ZendAcl\AclMiddleware::class,
 ```
 
@@ -231,7 +229,6 @@ Add the following to the array in the `$app->routeMiddleware()` method in `boots
 You can add the middleware to any route as a before middleware such as the following.
 
 ```php
-
 Route::get('article/{id}', ['middleware' => ['acl:article,view'], 'uses' => 'ArticleController@show']);
 ```
 
