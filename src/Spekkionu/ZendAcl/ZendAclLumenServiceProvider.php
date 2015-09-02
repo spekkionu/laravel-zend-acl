@@ -2,7 +2,6 @@
 namespace Spekkionu\ZendAcl;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Routing\Registrar as Router;
 use Zend\Permissions\Acl\Acl;
 use Illuminate\Contracts\Foundation\Application;
 
