@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.5.9",
         "zendframework/zend-permissions-acl": "2.5.*",
         "illuminate/support": "5.1.*"
     },

@@ -1,22 +1,23 @@
 <?php namespace Spekkionu\ZendAcl;
 
 use PHPUnit_Framework_TestCase;
-use Spekkionu\ZendAcl\AclRouteFilter;
+use Spekkionu\ZendAcl\AclMiddleware;
 use \Mockery as m;
+use Closure;
 
 function view($view) {
-    return AclRouteFilterTest::$functions->view($view);
+    return AclRouteMiddlewareTest::$functions->view($view);
 }
 
 function redirect($url = null) {
-    return AclRouteFilterTest::$functions->redirect($url);
+    return AclRouteMiddlewareTest::$functions->redirect($url);
 }
 
 function response($body = null, $status = null) {
-    return AclRouteFilterTest::$functions->response($body, $status);
+    return AclRouteMiddlewareTest::$functions->response($body, $status);
 }
 
-class AclRouteFilterTest extends PHPUnit_Framework_TestCase
+class AclRouteMiddlewareTest extends PHPUnit_Framework_TestCase
 {
 
     public static $functions;
@@ -45,12 +46,12 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->with('member', $resource, $permission)->andReturn(true);
 
-        $route = m::mock('Illuminate\Routing\Route');
-
+        $closure = function($request){};
+        
         $request = m::mock('Illuminate\Http\Request');
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterAuthFail()
@@ -70,15 +71,15 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->with('member', $resource, $permission)->andReturn(false);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
         $request->shouldReceive('ajax')->once()->andReturn(false);
 
         self::$functions->shouldReceive('view')->once()->with('zendacl::unauthorized');
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterForGuest()
@@ -94,12 +95,12 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(true)->with('guest', $resource, $permission);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterFailedView()
@@ -117,15 +118,15 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
         $request->shouldReceive('ajax')->once()->andReturn(false);
 
         self::$functions->shouldReceive('view')->once()->with('zendacl::unauthorized');
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterFailedRedirect()
@@ -143,15 +144,15 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
         $request->shouldReceive('ajax')->once()->andReturn(false);
 
         self::$functions->shouldReceive('redirect')->once()->with('auth/login')->once();
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterFailedRoute()
@@ -169,7 +170,7 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
         $request->shouldReceive('ajax')->once()->andReturn(false);
@@ -179,8 +180,8 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
 
         self::$functions->shouldReceive('redirect')->once()->andReturn($redirect);
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 
     public function testFilterFailedAjax()
@@ -196,14 +197,14 @@ class AclRouteFilterTest extends PHPUnit_Framework_TestCase
         $acl = m::mock('Zend\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
-        $route = m::mock('Illuminate\Routing\Route');
+        $closure = function($request){};
 
         $request = m::mock('Illuminate\Http\Request');
         $request->shouldReceive('ajax')->once()->andReturn(true);
 
         self::$functions->shouldReceive('response')->once()->with('Unauthorized.', 401);
 
-        $filter = new AclRouteFilter($auth, $acl, $config);
-        $allowed = $filter->filter($route, $request, $resource, $permission);
+        $filter = new AclMiddleware($auth, $acl, $config);
+        $allowed = $filter->handle($request, $closure, $resource, $permission);
     }
 }
