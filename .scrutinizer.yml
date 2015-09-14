@@ -1,8 +1,24 @@
 filter:
     excluded_paths: [vendor/*, tests/*, src/config/*, src/views/*]
 
+checks:
+    php:
+        code_rating: true
+        duplication: true
+build:
+    environment:
+        php:
+            version: 5.6
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --configuration phpunit.travis.xml --coverage-text'
+                coverage:
+                    file: 'coverage.clover'
+                    format: 'php-clover'
+
 tools:
-    external_code_coverage: true
+    external_code_coverage: false
     php_mess_detector: true
     php_cpd: true
     php_pdepend:
