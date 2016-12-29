@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 namespace Spekkionu\ZendAcl;
 
 use Closure;
-use  Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository as Config;
 use Zend\Permissions\Acl\Acl;
@@ -36,7 +36,6 @@ class AclMiddleware
      * Create a new filter instance.
      *
      * @param  Guard  $auth
-     * @return void
      */
     public function __construct(Guard $auth, Acl $acl, Config $config)
     {
