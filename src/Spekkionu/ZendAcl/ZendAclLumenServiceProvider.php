@@ -34,7 +34,7 @@ class ZendAclLumenServiceProvider extends ServiceProvider
     {
         $this->app->configure('zendacl');
 
-        $this->app['acl'] = $this->app->singleton(function (Application $app) {
+        $this->app->singleton(function (Application $app) {
             $acl = new Acl;
             if (file_exists(base_path('app/Http/acl.php'))) {
                 include base_path('app/Http/acl.php');
