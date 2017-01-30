@@ -36,7 +36,7 @@ Add the following line to the `require` section of `composer.json`:
 
 1. Add `'Spekkionu\ZendAcl\ZendAclServiceProvider',` to the service provider list in `config/app.php`.
 2. Add `'Acl' => 'Spekkionu\ZendAcl\Facades\Acl',` to the list of aliases in `config/app.php`.
-3. Run `php artisan vendor:publish --provider=Spekkionu\ZendAcl\ZendAclServiceProvider`
+3. Run `php artisan vendor:publish --provider="Spekkionu\ZendAcl\ZendAclServiceProvider"`
 
 After publishing the permissions will be defined in `app/Http/acl.php`.
 

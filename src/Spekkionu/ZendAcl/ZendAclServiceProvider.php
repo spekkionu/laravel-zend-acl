@@ -41,9 +41,9 @@ class ZendAclServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(dirname(__DIR__)) . '/config/zendacl.php',
             'zendacl'
-        );      
+        );
 
-        $this->app['acl'] = $this->app->share(function (Application $app) {
+        $this->app->singleton('acl', function (Application $app) {
             $acl = new Acl;
             if (file_exists(app_path('Http/acl.php'))) {
                 include app_path('Http/acl.php');
