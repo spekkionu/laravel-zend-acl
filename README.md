@@ -26,7 +26,7 @@ Add the following line to the `require` section of `composer.json`:
 ```json
 {
     "require": {
-        "spekkionu/laravel-zend-acl": "3.*"
+        "spekkionu/laravel-zend-acl": "4.*"
     }
 }
 ```
