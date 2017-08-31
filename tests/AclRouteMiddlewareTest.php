@@ -1,6 +1,6 @@
 <?php namespace Spekkionu\ZendAcl;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Spekkionu\ZendAcl\AclMiddleware;
 use \Mockery as m;
 use Closure;
@@ -17,7 +17,7 @@ function response($body = null, $status = null) {
     return AclRouteMiddlewareTest::$functions->response($body, $status);
 }
 
-class AclRouteMiddlewareTest extends PHPUnit_Framework_TestCase
+class AclRouteMiddlewareTest extends TestCase
 {
 
     public static $functions;
@@ -47,7 +47,7 @@ class AclRouteMiddlewareTest extends PHPUnit_Framework_TestCase
         $acl->shouldReceive('isAllowed')->once()->with('member', $resource, $permission)->andReturn(true);
 
         $closure = function($request){};
-        
+
         $request = m::mock('Illuminate\Http\Request');
 
         $filter = new AclMiddleware($auth, $acl, $config);
