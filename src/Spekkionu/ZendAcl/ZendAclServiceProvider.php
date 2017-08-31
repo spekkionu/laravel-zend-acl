@@ -24,7 +24,7 @@ class ZendAclServiceProvider extends ServiceProvider
     {
         $this->publishes([
             dirname(dirname(__DIR__)) . '/config/zendacl.php' => config_path('zendacl.php'),
-            dirname(dirname(__DIR__)) . '/config/acl.php' => app_path('Http/acl.php'),
+            dirname(dirname(__DIR__)) . '/config/acl.php' => base_path('routes/acl.php'),
             dirname(dirname(__DIR__)) . '/views' => base_path('resources/views/vendor/zendacl'),
         ]);
 
@@ -45,7 +45,9 @@ class ZendAclServiceProvider extends ServiceProvider
 
         $this->app->singleton('acl', function (Application $app) {
             $acl = new Acl;
-            if (file_exists(app_path('Http/acl.php'))) {
+            if (file_exists(base_path('routes/acl.php'))) {
+                include base_path('routes/acl.php');
+            } elseif (file_exists(app_path('Http/acl.php'))) {
                 include app_path('Http/acl.php');
             }
             return $acl;
