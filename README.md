@@ -9,7 +9,7 @@ Laravel Zend Acl
 [![Code Coverage](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/badges/coverage.png?s=cac2d309c0f9a54c75efc182ab3ba03e16605b1b)](https://scrutinizer-ci.com/g/spekkionu/laravel-zend-acl/)
 
 
-Adds ACL to Laravel 5 or Lumen via Zend\Permissions\Acl component.
+Adds ACL to Laravel 5 or Lumen via Laminas\Permissions\Acl component.
 
 Most of the ACL solutions for Laravel store the permissions rules in the database or other persistance layer.
 This is great if access is dynamic but for applications with set permissions by roles this makes modification more difficult.
@@ -17,39 +17,42 @@ Adding new resources, permissions, or roles requires runnning db queries via a m
 With this package the permissions are stored in code and thus in version control (hopefully).
 
 Rather than reinvent the wheel this package makes use of the Acl package from Zend Framework.
-Documentation for the Zend\Permissions\Acl can be found at http://framework.zend.com/manual/current/en/modules/zend.permissions.acl.intro.html
+Documentation for the Laminas\Permissions\Acl can be found at https://docs.laminas.dev/laminas-permissions-acl/
 
 ## Installation
 
-Add the following line to the `require` section of `composer.json`:
+Run `composer require spekkionu/laravel-zend-acl` from your project root.
 
-```json
-{
-    "require": {
-        "spekkionu/laravel-zend-acl": "4.*"
-    }
-}
-```
 ## Setup
 
 ### Laravel
 
-1. Add `'Spekkionu\ZendAcl\ZendAclServiceProvider',` to the service provider list in `config/app.php`.
+1. For Laravel versions less than 5.5 Add `'Spekkionu\ZendAcl\ZendAclServiceProvider',` to the service provider list in `config/app.php`. This step is not necessary for Laravel 5.5+.
 2. Add `'Acl' => 'Spekkionu\ZendAcl\Facades\Acl',` to the list of aliases in `config/app.php`.
 3. Run `php artisan vendor:publish --provider="Spekkionu\ZendAcl\ZendAclServiceProvider"`
 
-After publishing the permissions will be defined in `app/Http/acl.php`.
+After publishing the permissions will be defined in `routes/acl.php`.
 
 ### Lumen
 
 1. Add `$app->register(Spekkionu\ZendAcl\ZendAclLumenServiceProvider::class);` to the `Register Service Providers` section in `bootstrap/app.php`.
 2. Copy the `vendor/spekkionu/laravel-zend-acl/src/config/zendacl.php` file to the `config` folder in the app root (create the folder if it does not exist).
-3. Copy the `vendor/spekkionu/laravel-zend-acl/src/config/acl.php` file to the `app/Http` folder (this folder should also contain the `routes.php` file).
+3. Copy the `vendor/spekkionu/laravel-zend-acl/src/config/acl.php` file to the `routes` folder (this folder should also contain the `web.php` routes file).
+
+## Migrating from version 6
+
+The namespace for the Zend framework libraries has changed from Zend to Laminas.
+
+To migrate to the 7.x branch you will need to change any references to the old Zend namespace in your project to the new Laminas namespace.
+
+This will likely include changing the RoleInterface your user model implements from `Zend\Permissions\Acl\Role\RoleInterface` to `Laminas\Permissions\Acl\Role\RoleInterface`.
+
+Also anywhere you are type hinting for `Zend\Permissions\Acl\Acl` to `Laminas\Permissions\Acl\Acl`.
 
 ## Usage
 
-The Zend\Permissions\Acl is available through the Facade Acl or through the acl service in the IOC container.
-The IOC container can also inject the acl instance by type-hinting Zend\Permissions\Acl\Acl.
+The Laminas\Permissions\Acl is available through the Facade Acl or through the acl service in the IOC container.
+The IOC container can also inject the acl instance by type-hinting Laminas\Permissions\Acl\Acl.
 
 The permissions can be modified at `app/Http/acl.php`.
 
@@ -62,7 +65,7 @@ You can add a new resource using the addResource method.
 // Add using string shortcut
 $acl->addResource('page');
 // Add using instance of the Resource class
-$acl->addResource(new \Zend\Permissions\Acl\Resource\GenericResource('someResource'));
+$acl->addResource(new \Laminas\Permissions\Acl\Resource\GenericResource('someResource'));
 ?>
 ```
 
@@ -75,7 +78,7 @@ You can add a new resource using the addRole method.
 // Add using string shortcut
 $acl->addRole('admin');
 // Add using instance of the Role class
-$acl->addRole(new \Zend\Permissions\Acl\Role\GenericRole('member'));
+$acl->addRole(new \Laminas\Permissions\Acl\Role\GenericRole('member'));
 ?>
 ```
 
@@ -157,7 +160,7 @@ $allowed = Acl::isAllowed('guest', 'page', 'view');
 ## Checking permissions for a user
 
 In order to check permissions for a logged in user the user needs to have a field that stores the user's role.
-If using an Eloquent user model have the user model implement Zend\Permissions\Acl\Role\RoleInterface.
+If using an Eloquent user model have the user model implement Laminas\Permissions\Acl\Role\RoleInterface.
 This interface has one method getRoleId() that should return the role for the user.
 
 ### Example Model
@@ -167,7 +170,7 @@ The following model will allow an instance of the User model to be passed to the
 ```php
 <?php
 use Illuminate\Database\Eloquent\Model;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class User extends Model implements RoleInterface
 {
@@ -205,7 +208,7 @@ Acl::isAllowed(Auth::user(), 'post', 'edit');
 ### Adding permission checks to routes
 
 There is an acl route middleware included in this package that lets you restrict access by route.
-The route middleware requires the model returned by Auth::user() to implement `Zend\Permissions\Acl\Role\RoleInterface` as above.
+The route middleware requires the model returned by Auth::user() to implement `Laminas\Permissions\Acl\Role\RoleInterface` as above.
 
 #### Registering the acl middleware
 
