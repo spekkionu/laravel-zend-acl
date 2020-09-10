@@ -43,7 +43,7 @@ class AclRouteMiddlewareTest extends TestCase
         $config = m::mock('Illuminate\Contracts\Config\Repository');
 
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->with('member', $resource, $permission)->andReturn(true);
 
         $closure = function($request){};
@@ -68,7 +68,7 @@ class AclRouteMiddlewareTest extends TestCase
         $config->shouldReceive('get')->with('zendacl.view', 'zendacl::unauthorized')->andReturn('zendacl::unauthorized');
 
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->with('member', $resource, $permission)->andReturn(false);
 
         $closure = function($request){};
@@ -92,7 +92,7 @@ class AclRouteMiddlewareTest extends TestCase
 
         $config = m::mock('Illuminate\Contracts\Config\Repository');
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(true)->with('guest', $resource, $permission);
 
         $closure = function($request){};
@@ -115,7 +115,7 @@ class AclRouteMiddlewareTest extends TestCase
         $config->shouldReceive('get')->with('zendacl.action', 'redirect')->andReturn('view');
         $config->shouldReceive('get')->with('zendacl.view', 'zendacl::unauthorized')->andReturn('zendacl::unauthorized');
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
         $closure = function($request){};
@@ -141,7 +141,7 @@ class AclRouteMiddlewareTest extends TestCase
         $config->shouldReceive('get')->with('zendacl.action', 'redirect')->andReturn('redirect');
         $config->shouldReceive('get')->with('zendacl.redirect', 'auth/login')->andReturn('auth/login');
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
         $closure = function($request){};
@@ -167,7 +167,7 @@ class AclRouteMiddlewareTest extends TestCase
         $config->shouldReceive('get')->with('zendacl.action', 'redirect')->andReturn('route');
         $config->shouldReceive('get')->with('zendacl.redirect')->andReturn('login');
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
         $closure = function($request){};
@@ -194,7 +194,7 @@ class AclRouteMiddlewareTest extends TestCase
 
         $config = m::mock('Illuminate\Contracts\Config\Repository');
 
-        $acl = m::mock('Zend\Permissions\Acl\Acl');
+        $acl = m::mock('Laminas\Permissions\Acl\Acl');
         $acl->shouldReceive('isAllowed')->once()->andReturn(false)->with('guest', $resource, $permission);
 
         $closure = function($request){};

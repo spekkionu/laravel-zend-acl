@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository as Config;
-use Zend\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Acl;
 
 class AclMiddleware
 {
