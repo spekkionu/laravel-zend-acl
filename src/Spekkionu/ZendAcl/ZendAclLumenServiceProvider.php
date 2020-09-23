@@ -2,7 +2,7 @@
 namespace Spekkionu\ZendAcl;
 
 use Illuminate\Support\ServiceProvider;
-use Zend\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Acl;
 use Illuminate\Contracts\Foundation\Application;
 
 class ZendAclLumenServiceProvider extends ServiceProvider
@@ -42,7 +42,7 @@ class ZendAclLumenServiceProvider extends ServiceProvider
             return $acl;
         });
 
-        $this->app->singleton('Zend\Permissions\Acl\Acl', function (Application $app) {
+        $this->app->singleton('Laminas\Permissions\Acl\Acl', function (Application $app) {
             return $app->make('acl');
         });
     }
@@ -54,6 +54,6 @@ class ZendAclLumenServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('acl', 'Zend\Permissions\Acl\Acl');
+        return array('acl', 'Laminas\Permissions\Acl\Acl');
     }
 }

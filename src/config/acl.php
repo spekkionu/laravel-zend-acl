@@ -1,8 +1,8 @@
 <?php
 
-use Zend\Permissions\Acl\Acl;
-use Zend\Permissions\Acl\Resource\GenericResource;
-use Zend\Permissions\Acl\Role\GenericRole as Role;
+use Laminas\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Resource\GenericResource;
+use Laminas\Permissions\Acl\Role\GenericRole as Role;
 
 /*
 |--------------------------------------------------------------------------
