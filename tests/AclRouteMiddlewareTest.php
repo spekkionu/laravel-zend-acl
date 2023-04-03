@@ -22,12 +22,12 @@ class AclRouteMiddlewareTest extends TestCase
 
     public static $functions;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::$functions = m::mock();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         m::close();
     }
 
